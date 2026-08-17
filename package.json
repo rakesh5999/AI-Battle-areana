@@ -6,20 +6,29 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx server.ts"
+    "dev": "tsx watch server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rakesh5999/AI-Battle-areana.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rakesh5999/AI-Battle-areana/issues"
+  },
+  "homepage": "https://github.com/rakesh5999/AI-Battle-areana#readme",
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
   },
   "dependencies": {
     "@langchain/cohere": "^1.1.0",
     "@langchain/core": "^1.2.8",
-    "@langchain/google": "^0.2.1",
+    "@langchain/google": "^0.2.2",
     "@langchain/langgraph": "^1.4.10",
     "@langchain/mistralai": "^1.2.0",
     "dotenv": "^17.4.2",
