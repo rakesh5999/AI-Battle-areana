@@ -19,6 +19,15 @@ export default function App() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading, error]);
 
+  // Ping backend on mount to warm up Render free tier container
+  useEffect(() => {
+    if (API_URL) {
+      axios.get(`${API_URL}/health`).catch(() => {
+        // Silently warming up
+      });
+    }
+  }, []);
+
   // Auto-resize textarea
   useEffect(() => {
     if (textareaRef.current) {
@@ -46,7 +55,11 @@ export default function App() {
       }
     } catch (err) {
       console.error('Error invoking graph:', err);
-      setError(err?.response?.data?.error || err?.message || 'Failed to generate solutions. Please try again.');
+      if (err.message === 'Network Error' || !err.response) {
+        setError('Server was sleeping (Render free tier). It is now waking up — please try submitting again in a few seconds!');
+      } else {
+        setError(err?.response?.data?.error || err?.message || 'Failed to generate solutions. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -135,10 +148,10 @@ export default function App() {
                 sol1Score === 0 && sol2Score === 0
                   ? 'Evaluation Pending'
                   : sol1Score > sol2Score
-                  ? 'Solution 1'
-                  : sol2Score > sol1Score
-                  ? 'Solution 2'
-                  : 'Both solutions are equally strong';
+                    ? 'Solution 1'
+                    : sol2Score > sol1Score
+                      ? 'Solution 2'
+                      : 'Both solutions are equally strong';
 
               return (
                 <div key={index} className="flex flex-col gap-6">
