@@ -1,12 +1,39 @@
 import express from "express";
-import runGraph from "./ai/graph.ai.js"
+import cors from "cors";
+import runGraph from "./ai/graph.ai.js";
 
-const app = express()
+const app = express();
 
-app.get('/', async (req,res)=>{
-  const result = await runGraph("write an code for factroial function in js")
+app.use(cors());
+app.use(express.json());
 
-  res.json(result)
-})
+app.post("/invoke", async (req, res) => {
+  try {
+    const { input } = req.body;
 
-export default app
+    if (!input || typeof input !== "string" || !input.trim()) {
+      return res.status(400).json({
+        message: "Input problem is required",
+        success: false,
+        error: "Input problem cannot be empty"
+      });
+    }
+
+    const result = await runGraph(input.trim());
+
+    res.status(200).json({
+      message: "Graph executed successfully",
+      success: true,
+      result
+    });
+  } catch (error: any) {
+    console.error("Error executing graph:", error);
+    res.status(500).json({
+      message: "Failed to execute graph",
+      success: false,
+      error: error?.message || "Internal server error"
+    });
+  }
+});
+
+export default app;
