@@ -123,10 +123,10 @@ export default function App() {
             {/* Quick Prompts */}
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg text-left">
               {[
-                'Explain how JWT authentication works',
-                'Write a debounce function in JavaScript with cancel',
-                'Compare PostgreSQL vs MongoDB for analytics',
-                'How does the JavaScript Event Loop handle microtasks?'
+                'what is docker in 2 lines',
+                'what is AWS in 2 lines',
+                'Write a factorial code',
+                'What is JavaScript in 4 lines'
               ].map((prompt, idx) => (
                 <button
                   key={idx}
